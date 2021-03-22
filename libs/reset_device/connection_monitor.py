@@ -31,7 +31,7 @@ else:
             if consecutive_active_reports >= 2:
                 no_conn_counter = 0
                 consecutive_active_reports = 0
-                return
+                sys.exit()
 
         # If the number of seconds not associated with an AP is greater or
         # equal to the auto_config_delay specified in the /etc/raspiwifi/raspiwifi.conf
