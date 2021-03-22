@@ -76,7 +76,7 @@ li.wifiNetwork:after {
     content: '▼';
     position: absolute;
     width: 25px;
-    color: #deab04;
+    color: #063970;
     font-weight: bold;
     font-size: 1.4rem;
     right: 0px;
@@ -179,7 +179,7 @@ div#saveCredentialsOutput{
         content: '▼';
         position: absolute;
         width: 50px;
-        color: #deab04;
+        color: #063970;
         font-weight: bold;
         font-size: 2rem;
         right: 0px;
