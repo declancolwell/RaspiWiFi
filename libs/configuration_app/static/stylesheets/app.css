@@ -117,7 +117,7 @@ select.wifiNetworkInputs {
     width: 100%;
     margin:2em 0;
     padding:.5em;
-    background-color: #deab04;
+    background-color: #063970;
     font-size: 2rem;
     color: #fff;
 }
@@ -144,7 +144,7 @@ div#saveCredentialsOutput{
 }
 
 .saveCredentialsSSID{
-  color: #deab04;
+  color: #063970;
   font-size: 2em;
 }
 
