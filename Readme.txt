@@ -50,10 +50,10 @@ CONFIGURATION:
 
 ==== "SSID Prefix" [default: "RaspiWiFi Setup"]: This is the prefix of the SSID
       that your Pi will broadcast for you to connect to during
-      Configuration Mode (Host Mode). The last four of you Pi's serial number
+      Configuration Mode (Host Mode). The last four of your Pi's serial number
       will be appended to whatever you enter here.
 
-==== "WPA Encryption" [default: No]: If oyu enable this setting the Access Point 
+==== "WPA Encryption" [default: No]: If you enable this setting the Access Point 
       created during Configuration Mode will be encrypted using WPA2 encryption. 
       The prompt following this one will let you specify the Wireless Key to be 
       used. You can leave the password blank if you chose 'N' to this option. 
