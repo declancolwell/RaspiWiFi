@@ -1,6 +1,6 @@
-RaspiWiFi
+Pulsenics Probe IoT Wifi Configuration
 
-RaspiWiFi is a program to headlessly configure a Raspberry Pi's WiFi
+RaspiWiFi is a program to headlessly configure a Pulsenics Probe WiFi
 connection using using any other WiFi-enabled device (much like the way
 a Chromecast or similar device can be configured).
 
@@ -101,7 +101,7 @@ enable the new configuration.
 
 == You can also use the Pi in a point-to-point connection mode by leaving it in
 Configuration Mode. All services will be addresible in their normal way at
-10.0.0.1 while connected to the "RaspiWiFi[xxxx] Setup" AP.
+10.0.0.1 while connected to the "Pulsenics Wifi Setup" AP.
 
 
 
