@@ -77,7 +77,7 @@ been running by editing the /etc/raspiwifi/raspiwifi.conf
 
 USAGE:
 
-== Connect to the "Pulseincs Wifi Setup" access point using any other WiFi enabled
+== Connect to the "Pulsenics Wifi Setup" access point using any other WiFi enabled
 device.
 
 == Navigate to [10.0.0.1], [setup.pulsenics.com] using any web browser on the device you
