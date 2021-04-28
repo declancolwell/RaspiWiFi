@@ -6,24 +6,12 @@ a Chromecast or similar device can be configured).
 
 It can also be used as a method to connect wirelessly point-to-point with your
 Pi when a network is not available or you do not want to connect to one. Just
-leave it in Configuration Mode, connect to the "RaspiWiFi[xxxx] Setup" access
+leave it in Configuration Mode, connect to the "Pulsenics WiFi Setup" access
 point. The Pi will be addressable at 10.0.0.1 using all the normal methods you
 might use while connected through a network.
 
 RaspiWiFi has been
 tested with the Raspberry Pi B+, Raspberry Pi 3, and Raspberry Pi Zero W.
-
-
-
-OS IMAGE USAGE:
-
-== Just burn the ".IMG" file attached to this release to an 8GB+ SD card. Boot
-your Raspberry Pi with the SD card and it will automatically boot into its AP
-Host (broadcast) mode with an SSID based on a unique id (the last four of your
-Pi's serial number). No input devices or displays necessary. Otherwise this is
-a base install of the current Raspbian Stretch, up to date as of the date of
-this release.
-
 
 
  SCRIPT-BASED INSTALLATION INSTRUCTIONS:
@@ -89,11 +77,11 @@ been running by editing the /etc/raspiwifi/raspiwifi.conf
 
 USAGE:
 
-== Connect to the "RaspiWiFi[xxxx] Setup" access point using any other WiFi enabled
+== Connect to the "Pulseincs Wifi Setup" access point using any other WiFi enabled
 device.
 
 == Navigate to [10.0.0.1], [setup.pulsenics.com] using any web browser on the device you
-connected with. (don't forget to manually start with [https://] when using SSL mode)
+connected with. (manually start with [https://] when using SSL mode)
 
 == Select the WiFi connection you'd like your Raspberry Pi to connect to from
 the drop down list and enter its wireless password on the page provided. If no
