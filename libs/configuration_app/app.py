@@ -41,6 +41,7 @@ def save_credentials():
         set_ap_client_mode()
     
     if wpa_auth_check() == True:
+        flash("Rebooting")
         t = Thread(target=sleep_and_start_ap)
         t.start()
         return render_template('save_credentials.html', ssid = ssid)
@@ -80,7 +81,7 @@ def scan_wifi_networks():
     ap_list, err = iwlist_raw.communicate()
     ap_array = []
 
-    for line in ap_list.decode('ascii').rsplit('\n'):
+    for line in ap_list.decode('utf-8').rsplit('\n'):
         if 'ESSID' in line:
             ap_ssid = line[27:-1]
             if ap_ssid != '':
@@ -152,12 +153,13 @@ def wpa_auth_check():
 
     wpa_cli_raw = subprocess.Popen(['wpa_cli', '-i', 'wlan0', 'status'], stdout=subprocess.PIPE)
     wpa_cli_out, err = wpa_cli_raw.communicate()
-
-    if 'wpa_state=COMPLETED' in wpa_cli_out.decode('ascii'):
+    if 'wpa_state=COMPLETED' in wpa_cli_out.decode('utf-8'):
         os.system('pkill wpa_supplicant')
+        flash("Valid Wifi Credentials")
         return True
     else:
         os.system('pkill wpa_supplicant')
+        flash("Invalid Wifi Credentials")
         return False
 
 
