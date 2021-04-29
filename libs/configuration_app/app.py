@@ -41,6 +41,11 @@ def save_credentials():
         set_ap_client_mode()
     
     # Check if the entered credentials are valid, if they are proceed, if not, send user back to main page
+    # Currently the flow is this:
+    #   1. Enter credentials
+    #   2. Click button
+    #   3. Wait
+    #   4. Crashes on save_credentials.html but RPi does not reboot
     if wpa_auth_check() == True:
         flash("Rebooting")
         t = Thread(target=sleep_and_start_ap)
