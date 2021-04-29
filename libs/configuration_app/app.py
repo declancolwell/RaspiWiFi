@@ -37,24 +37,34 @@ def save_credentials():
     
     # Call set_ap_client_mode() in a thread otherwise the reboot will prevent
     # the response from getting to the browser
+    #def sleep_and_start_ap():
+    #    time.sleep(2)
+    #    set_ap_client_mode()
+    #
+    ## Check if the entered credentials are valid, if they are proceed, if not, send user back to main page
+    ## Currently the flow is this:
+    ##   1. Enter credentials
+    ##   2. Click button
+    ##   3. Wait
+    ##   4. Crashes on save_credentials.html but RPi does not reboot
+    #
+    #if wpa_auth_check() == True:
+    #    flash("Rebooting")
+    #    t = Thread(target=sleep_and_start_ap)
+    #    t.start()
+    #    return render_template('save_credentials.html', ssid = ssid)
+    #else:
+    #    flash("Incorrect wireless key")
+    #    return redirect('/')
+
     def sleep_and_start_ap():
         time.sleep(2)
         set_ap_client_mode()
-    
-    # Check if the entered credentials are valid, if they are proceed, if not, send user back to main page
-    # Currently the flow is this:
-    #   1. Enter credentials
-    #   2. Click button
-    #   3. Wait
-    #   4. Crashes on save_credentials.html but RPi does not reboot
-    if wpa_auth_check() == True:
-        flash("Rebooting")
-        t = Thread(target=sleep_and_start_ap)
-        t.start()
-        return render_template('save_credentials.html', ssid = ssid)
-    else:
-        flash("Incorrect wireless key")
-        return redirect('/')
+    t = Thread(target=sleep_and_start_ap)
+    t.start()
+
+    return render_template('save_credentials.html', ssid = ssid)
+
 
 
 @app.route('/save_wpa_credentials', methods = ['GET', 'POST'])
