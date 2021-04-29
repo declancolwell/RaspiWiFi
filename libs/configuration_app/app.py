@@ -40,12 +40,14 @@ def save_credentials():
         time.sleep(2)
         set_ap_client_mode()
     
+    # Check if the entered credentials are valid, if they are proceed, if not, send user back to main page
     if wpa_auth_check() == True:
         flash("Rebooting")
         t = Thread(target=sleep_and_start_ap)
         t.start()
         return render_template('save_credentials.html', ssid = ssid)
     else:
+        # Does this (flashing text) actually work? May need to alert user in a better way
         flash("Incorrect wireless key")
         return redirect('/')
 
@@ -81,6 +83,7 @@ def scan_wifi_networks():
     ap_list, err = iwlist_raw.communicate()
     ap_array = []
 
+    # TODO: debug why some characters are not properly decoded 
     for line in ap_list.decode('utf-8').rsplit('\n'):
         if 'ESSID' in line:
             ap_ssid = line[27:-1]
@@ -146,6 +149,8 @@ def config_file_hash():
 
     return config_hash
 
+# Method to check validity of entered wifi credentials
+# TODO, I don't think this works as is, needs to be tested
 def wpa_auth_check():
     os.system('wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf')
 
