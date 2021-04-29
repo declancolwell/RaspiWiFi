@@ -1,5 +1,9 @@
 Pulsenics Probe IoT Wifi Configuration
 
+DEV BRANCH: In the process of implementing new features:
+                        - Notifying user of validity of enetered Wifi Credentials   
+                        - Bug fix on some characters in network names being mis-interpreted (apostrophe became hex characters)
+
 RaspiWiFi is a program to headlessly configure a Pulsenics Probe WiFi
 connection using using any other WiFi-enabled device (much like the way
 a Chromecast or similar device can be configured).
