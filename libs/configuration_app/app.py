@@ -39,10 +39,14 @@ def save_credentials():
     def sleep_and_start_ap():
         time.sleep(2)
         set_ap_client_mode()
-    t = Thread(target=sleep_and_start_ap)
-    t.start()
-
-    return render_template('save_credentials.html', ssid = ssid)
+    
+    if wpa_auth_check() == True:
+        t = Thread(target=sleep_and_start_ap)
+        t.start()
+        return render_template('save_credentials.html', ssid = ssid)
+    else:
+        flash("Incorrect wireless key")
+        return redirect('/')
 
 
 @app.route('/save_wpa_credentials', methods = ['GET', 'POST'])
@@ -76,7 +80,7 @@ def scan_wifi_networks():
     ap_list, err = iwlist_raw.communicate()
     ap_array = []
 
-    for line in ap_list.decode('utf-8').rsplit('\n'):
+    for line in ap_list.decode('ascii').rsplit('\n'):
         if 'ESSID' in line:
             ap_ssid = line[27:-1]
             if ap_ssid != '':
@@ -140,6 +144,21 @@ def config_file_hash():
         config_hash[line_key] = line_value
 
     return config_hash
+
+def wpa_auth_check():
+    os.system('wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf')
+
+    time.sleep(4)
+
+    wpa_cli_raw = subprocess.Popen(['wpa_cli', '-i', 'wlan0', 'status'], stdout=subprocess.PIPE)
+    wpa_cli_out, err = wpa_cli_raw.communicate()
+
+    if 'wpa_state=COMPLETED' in wpa_cli_out.decode('ascii'):
+        os.system('pkill wpa_supplicant')
+        return True
+    else:
+        os.system('pkill wpa_supplicant')
+        return False
 
 
 if __name__ == '__main__':
