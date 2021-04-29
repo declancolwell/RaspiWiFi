@@ -19,7 +19,6 @@
 
     <h1>Pulsenics WiFi Setup</h1>
     <div class="wifiIcon"></div>
-    <!-- TODO: Change this icon for Pulsenics logo -->
 
     <form action="{{ url_for('save_credentials') }}" method=post>
       <ul>
@@ -38,7 +37,7 @@
         <li><label for="wifi_key">Enter Your Network Credentials</label></li>
         <li><input type="password" name="wifi_key", class="wifiNetworkInputs"></li>
 
-        <input type="submit", class="wifiConnectButton">
+        <input type="submit",onclick="this.disabled=true;this.value='Connecting...';this.form.submit();",  class="wifiConnectButton">
       </ul>
     </form>
   </div>
