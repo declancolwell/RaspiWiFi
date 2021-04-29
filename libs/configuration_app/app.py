@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, flash
 import subprocess
 import os
 import time
@@ -52,7 +52,6 @@ def save_credentials():
         t.start()
         return render_template('save_credentials.html', ssid = ssid)
     else:
-        # Does this (flashing text) actually work? May need to alert user in a better way
         flash("Incorrect wireless key")
         return redirect('/')
 
