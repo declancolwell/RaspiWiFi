@@ -89,7 +89,6 @@ def scan_wifi_networks():
     return ap_array
 
 def create_wpa_supplicant(ssid, wifi_key):
-    asleep = False
     temp_conf_file = open('wpa_supplicant.conf.tmp', 'w')
 
     temp_conf_file.write('ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n')
@@ -113,6 +112,16 @@ def set_ap_client_mode():
     os.system('rm -f /etc/raspiwifi/host_mode')
     os.system('rm /etc/cron.raspiwifi/aphost_bootstrapper')
     os.system('cp /usr/lib/raspiwifi/reset_device/static_files/apclient_bootstrapper /etc/cron.raspiwifi/')
+    os.system('chmod +x /etc/cron.raspiwifi/apclient_bootstrapper')
+    os.system('mv /etc/dnsmasq.conf.original /etc/dnsmasq.conf')
+    os.system('mv /etc/dhcpcd.conf.original /etc/dhcpcd.conf')
+    os.system('reboot')
+
+def set_ap_client_mode_revert():
+    os.system('rm -f /etc/raspiwifi/host_mode')
+    os.system('rm /etc/cron.raspiwifi/aphost_bootstrapper')
+    os.system('cp /usr/lib/raspiwifi/reset_device/static_files/apclient_bootstrapper /etc/cron.raspiwifi/')
+    os.system('cp /etc/wpa_supplicant/wpa_supplicant.conf.temp /etc/wpa_supplicant/wpa_supplicant.conf')
     os.system('chmod +x /etc/cron.raspiwifi/apclient_bootstrapper')
     os.system('mv /etc/dnsmasq.conf.original /etc/dnsmasq.conf')
     os.system('mv /etc/dhcpcd.conf.original /etc/dhcpcd.conf')
@@ -149,20 +158,22 @@ def config_file_hash():
 
 def access_point_timeout():
     counter = 0
-    while asleep == False:
-        while counter < 60:
+    while asleep == True:
+        while counter < 120:
             time.sleep(1)
             counter = counter + 1
-        set_ap_client_mode()
+        set_ap_client_mode_revert()
     
 
 
 if __name__ == '__main__':
     config_hash = config_file_hash()
+    
+    #Run the timer in a thread before moving on to next task
+    timer = Thread(target=access_point_timeout)
+    timer.start()
 
     if config_hash['ssl_enabled'] == "1":
         app.run(host = '0.0.0.0', port = int(config_hash['server_port']), ssl_context='adhoc')
     else:
         app.run(host = '0.0.0.0', port = int(config_hash['server_port']))
-    timer = Thread(target=access_point_timeout)
-    timer.start()
