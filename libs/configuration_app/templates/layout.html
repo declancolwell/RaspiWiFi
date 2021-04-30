@@ -10,9 +10,7 @@
   </head>
   <body>
       <header>
-                <img src="/static/images/icon.png" width="100" height="100" alt="Pulsenics logo">
-    </header>
-      {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages() %}
         {% if messages %}
           <div id="flashes">
             <ul>
@@ -20,9 +18,11 @@
                 <li>{{ message }}</li>
               {% endfor %}
             </ul>
-          </div>
+          </div> 
         {% endif %}
       {% endwith %}
+        <img src="/static/images/icon.png" width="150" height="150" alt="Pulsenics logo" style="margin:25px 25px">
+    </header>
     {% block body %}
     {% endblock %}
   </body>

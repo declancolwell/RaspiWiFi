@@ -99,7 +99,7 @@ def scan_wifi_networks():
     ap_array = []
 
     # TODO: debug why some characters are not properly decoded 
-    for line in ap_list.decode('utf-8').rsplit('\n'):
+    for line in ap_list.decode('utf-8', 'ignore').rsplit('\n'):
         if 'ESSID' in line:
             ap_ssid = line[27:-1]
             if ap_ssid != '':
@@ -167,13 +167,13 @@ def config_file_hash():
 # Method to check validity of entered wifi credentials
 # TODO, I don't think this works as is, needs to be tested
 def wpa_auth_check():
-    os.system('wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf')
+    os.system('sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf')
 
     time.sleep(4)
 
     wpa_cli_raw = subprocess.Popen(['wpa_cli', '-i', 'wlan0', 'status'], stdout=subprocess.PIPE)
     wpa_cli_out, err = wpa_cli_raw.communicate()
-    if 'wpa_state=COMPLETED' in wpa_cli_out.decode('utf-8'):
+    if 'wpa_state=COMPLETED' in wpa_cli_out.decode('utf-8', 'ignore'):
         os.system('pkill wpa_supplicant')
         flash("Valid Wifi Credentials")
         return True
