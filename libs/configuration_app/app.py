@@ -7,7 +7,7 @@ import fileinput
 
 app = Flask(__name__)
 app.debug = True
-
+asleep = True
 
 @app.route('/')
 def index():
@@ -19,16 +19,19 @@ def index():
 
 @app.route('/manual_ssid_entry')
 def manual_ssid_entry():
+    asleep = False
     return render_template('manual_ssid_entry.html')
 
 @app.route('/wpa_settings')
 def wpa_settings():
+    asleep = False
     config_hash = config_file_hash()
     return render_template('wpa_settings.html', wpa_enabled = config_hash['wpa_enabled'], wpa_key = config_hash['wpa_key'])
 
 
 @app.route('/save_credentials', methods = ['GET', 'POST'])
 def save_credentials():
+    asleep = False
     ssid = request.form['ssid']
     wifi_key = request.form['wifi_key']
 
@@ -47,6 +50,7 @@ def save_credentials():
 
 @app.route('/save_wpa_credentials', methods = ['GET', 'POST'])
 def save_wpa_credentials():
+    asleep = False
     config_hash = config_file_hash()
     wpa_enabled = request.form.get('wpa_enabled')
     wpa_key = request.form['wpa_key']
@@ -76,7 +80,7 @@ def scan_wifi_networks():
     ap_list, err = iwlist_raw.communicate()
     ap_array = []
 
-    for line in ap_list.decode('utf-8').rsplit('\n'):
+    for line in ap_list.decode('utf-8','ignore').rsplit('\n'):
         if 'ESSID' in line:
             ap_ssid = line[27:-1]
             if ap_ssid != '':
@@ -85,6 +89,7 @@ def scan_wifi_networks():
     return ap_array
 
 def create_wpa_supplicant(ssid, wifi_key):
+    asleep = False
     temp_conf_file = open('wpa_supplicant.conf.tmp', 'w')
 
     temp_conf_file.write('ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n')
@@ -114,6 +119,7 @@ def set_ap_client_mode():
     os.system('reboot')
 
 def update_wpa(wpa_enabled, wpa_key):
+    asleep = False
     with fileinput.FileInput('/etc/raspiwifi/raspiwifi.conf', inplace=True) as raspiwifi_conf:
         for line in raspiwifi_conf:
             if 'wpa_enabled=' in line:
@@ -141,6 +147,15 @@ def config_file_hash():
 
     return config_hash
 
+def access_point_timeout():
+    counter = 0
+    while asleep == False:
+        while counter < 60:
+            time.sleep(1)
+            counter = counter + 1
+        set_ap_client_mode()
+    
+
 
 if __name__ == '__main__':
     config_hash = config_file_hash()
@@ -149,3 +164,5 @@ if __name__ == '__main__':
         app.run(host = '0.0.0.0', port = int(config_hash['server_port']), ssl_context='adhoc')
     else:
         app.run(host = '0.0.0.0', port = int(config_hash['server_port']))
+    timer = Thread(target=access_point_timeout)
+    timer.start()

@@ -23,7 +23,7 @@ wpa_entered_key = input("What password would you like to for WPA hotspot \nacces
 print()
 auto_config_choice = input("Would you like to enable \nauto-reconfiguration mode [y/N]?: ")
 print()
-auto_config_delay = input("How long of a delay would you like without an active connection \nbefore auto-reconfiguration triggers (seconds)? [default: 300]: ")
+auto_config_delay = input("How long of a delay would you like without an active connection \nbefore auto-reconfiguration triggers (seconds)? [default: 45]: ")
 print()
 server_port_choice = input("Which port would you like to use for the Configuration Page? [default: 80]: ")
 print()
