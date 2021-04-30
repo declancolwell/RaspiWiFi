@@ -174,12 +174,10 @@ def wpa_auth_check():
     wpa_cli_raw = subprocess.Popen(['wpa_cli', '-i', 'wlan0', 'status'], stdout=subprocess.PIPE)
     wpa_cli_out, err = wpa_cli_raw.communicate()
     if 'wpa_state=COMPLETED' in wpa_cli_out.decode('utf-8', 'ignore'):
-        os.system('pkill wpa_supplicant')
-        flash("Valid Wifi Credentials")
+        os.system('sudo pkill wpa_supplicant')
         return True
     else:
-        os.system('pkill wpa_supplicant')
-        flash("Invalid Wifi Credentials")
+        os.system('sudo pkill wpa_supplicant')
         return False
 
 
