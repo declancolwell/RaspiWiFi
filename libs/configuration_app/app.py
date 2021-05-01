@@ -7,7 +7,6 @@ import fileinput
 
 app = Flask(__name__)
 app.debug = True
-asleep = True
 
 @app.route('/')
 def index():
@@ -19,19 +18,16 @@ def index():
 
 @app.route('/manual_ssid_entry')
 def manual_ssid_entry():
-    asleep = False
     return render_template('manual_ssid_entry.html')
 
 @app.route('/wpa_settings')
 def wpa_settings():
-    asleep = False
     config_hash = config_file_hash()
     return render_template('wpa_settings.html', wpa_enabled = config_hash['wpa_enabled'], wpa_key = config_hash['wpa_key'])
 
 
 @app.route('/save_credentials', methods = ['GET', 'POST'])
 def save_credentials():
-    asleep = False
     ssid = request.form['ssid']
     wifi_key = request.form['wifi_key']
 
@@ -50,7 +46,6 @@ def save_credentials():
 
 @app.route('/save_wpa_credentials', methods = ['GET', 'POST'])
 def save_wpa_credentials():
-    asleep = False
     config_hash = config_file_hash()
     wpa_enabled = request.form.get('wpa_enabled')
     wpa_key = request.form['wpa_key']
@@ -121,14 +116,13 @@ def set_ap_client_mode_revert():
     os.system('rm -f /etc/raspiwifi/host_mode')
     os.system('rm /etc/cron.raspiwifi/aphost_bootstrapper')
     os.system('cp /usr/lib/raspiwifi/reset_device/static_files/apclient_bootstrapper /etc/cron.raspiwifi/')
-    os.system('cp /etc/wpa_supplicant/wpa_supplicant.conf.temp /etc/wpa_supplicant/wpa_supplicant.conf')
+    os.system('mv /home/pi/wpa_supplicant.conf.temp /etc/wpa_supplicant/wpa_supplicant.conf')
     os.system('chmod +x /etc/cron.raspiwifi/apclient_bootstrapper')
     os.system('mv /etc/dnsmasq.conf.original /etc/dnsmasq.conf')
     os.system('mv /etc/dhcpcd.conf.original /etc/dhcpcd.conf')
     os.system('reboot')
 
 def update_wpa(wpa_enabled, wpa_key):
-    asleep = False
     with fileinput.FileInput('/etc/raspiwifi/raspiwifi.conf', inplace=True) as raspiwifi_conf:
         for line in raspiwifi_conf:
             if 'wpa_enabled=' in line:
@@ -158,11 +152,10 @@ def config_file_hash():
 
 def access_point_timeout():
     counter = 0
-    while asleep == True:
-        while counter < 120:
-            time.sleep(1)
-            counter = counter + 1
-        set_ap_client_mode_revert()
+    while counter < 120:
+        time.sleep(1)
+        counter = counter + 1
+    set_ap_client_mode_revert()
     
 
 
