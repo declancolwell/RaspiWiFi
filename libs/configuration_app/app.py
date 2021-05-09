@@ -152,7 +152,7 @@ def config_file_hash():
 
 def access_point_timeout():
     counter = 0
-    while counter < 120:
+    while counter < 240:
         time.sleep(1)
         counter = counter + 1
     set_ap_client_mode_revert()
