@@ -112,6 +112,8 @@ all settings, reboot, and enter "Configuration Mode" again. It's useful to have
 a simple button wired on GPIO 18 to reset easily if moving to a new location,
 or if incorrect connection information is ever entered. Just press and hold for
 10 seconds or longer.
+## THIS FEATURE HAS BEEN REMOVED FOR THE TIME BEING, GPIO 18 IS USED IN OTHER
+PULSENICS STACK FUNCTIONALITY AND PROGRAMS WERE FIGHTING OVER IT
 
 == You can also reset the device by running the manual_reset.py in the
 /usr/lib/raspiwifi/reset_device directory as root or with sudo.
